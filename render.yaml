@@ -1,0 +1,21 @@
+databases:
+ - name: video_stream
+   databaseName: video_stream
+   user: video_stream
+
+services:
+ - type: web
+   name: video_stream
+   env: python
+   buildCommand: "./build.sh"
+   startCommand: "gunicorn mysite.wsgi:application"
+   envVars:
+     - key: DATABASE_URL
+       fromDatabase:
+         name: video_stream
+         property: connectionString
+     - key: SECRET_KEY
+       generateValue: true
+     - key: WEB_CONCURRENCY
+       value: 4
+On the Render Dashb
